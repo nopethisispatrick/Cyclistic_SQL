@@ -1,0 +1,49 @@
+#packages to install
+install.packages("dplyr")
+library(dplyr)
+install.packages("tidyr")
+library(tidyr)
+
+#working directory
+setwd("C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023")
+
+#this code stores these in an array
+file_paths <- c("C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202201-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202202-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202203-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202204-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202205-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202207-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202206-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202208-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202209-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202210-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202211-divvy-tripdata_new.csv",
+                "C:/Users/jogar/Desktop/R Projects/Capstone_Google_2023/202212-divvy-tripdata_new.csv")
+
+  
+temp_df <- lapply(file_paths, read.csv) 
+cyclist_df <- do.call(rbind, temp_df) 
+
+#lets me check if imports are correct 
+str(cyclist_df)
+head(cyclist_df)
+View(cyclist_df)
+
+clean_cyclist_df <- cyclist_df %>% #not clean btw
+  mutate(start_month = format(as.Date(started_at, "%Y/%m/%d %H:%M"), "%b"),
+         start_year = format(as.Date(started_at, "%Y/%m/%d %H:%M"), "%Y"),
+         start_year = format(as.Date(started_at, "%Y/%m/%d %H:%M"), "%Y"),
+         start_day = format(as.Date(started_at, "%Y/%m/%d %H:%M"), "%d"),
+         start_dayz = format(as.Date(started_at, "%Y/%m/%d %H:%M"), "%A")) %>% 
+  select(-c(4,3,8,10,6)) %>%  #removing the unecessary items to make it load faster  
+  drop_na() #removing duplicates %>% 
+
+trip_data <- clean_cyclist_df[!duplicated(clean_cyclist_df$ride_id), ]
+
+#checks if i was able to mutate
+View(trip_data)
+
+#saves data
+write.csv(trip_data, "C:\\Users\\jogar\\Desktop\\R Projects\\Cyclistic.csv", row.names = FALSE)
+
