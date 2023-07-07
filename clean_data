@@ -1,3 +1,72 @@
+--combines all tables
+
+CREATE TABLE `keen-airlock-388921.Cylistics.Q1_trips` AS 
+SELECT *
+
+FROM (
+SELECT * FROM `keen-airlock-388921.Cylistics.apr_trip`
+UNION ALL
+SELECT * FROM `keen-airlock-388921.Cylistics.feb_trips`
+UNION ALL
+SELECT * FROM `keen-airlock-388921.Cylistics.march_trip`
+UNION ALL
+SELECT * FROM `keen-airlock-388921.Cylistics.jan_trips`
+  
+);
+
+--checks length of ride_ids
+SELECT length(ride_id) 
+
+FROM `keen-airlock-388921.Cylistics.Q1_trips` 
+-- checks null ride_ids
+select count(*) - count(ride_id) from `keen-airlock-388921.Cylistics.Q1_trips`
+
+--checks total rows (1066014)
+select count(*) from `keen-airlock-388921.Cylistics.Q1_trips`
+
+-- checks if ride_ids have any duplicates (returns 1066014 values which means no duplicate ride_ids)
+select count(distinct (ride_id)) from `keen-airlock-388921.Cylistics.Q1_trips`
+
+
+--check nulls
+
+SELECT 
+  COUNT(*) - COUNT(ride_id) AS ride_id_count,
+  COUNT(*) - COUNT(rideable_type) AS rideable_type_count,
+  COUNT(*) - COUNT(started_at) AS started_at_count,
+  COUNT(*) - COUNT(ended_at) AS ended_at_count,
+  COUNT(*) - COUNT(start_lat) AS start_lat_count,
+  COUNT(*) - COUNT(start_lng) AS start_lng_count,
+  COUNT(*) - COUNT(end_lat) AS end_lat_count, --861 null values
+  COUNT(*) - COUNT(start_station_name) AS start_station_name_count, -- 151918 null values
+  COUNT(*) - COUNT(start_station_id) AS start_station_id_count, -- 152050 null values
+  COUNT(*) - COUNT(end_station_name) AS end_station_name_count, -- 161646 null values
+  COUNT(*) - COUNT(end_station_id) AS end_station_id_count, -- 161787 null values
+  COUNT(*) - COUNT(member_casual) AS member_casual_count,
+  COUNT(*) - COUNT(end_lng) AS end_lng_count -- 861 null values
+
+FROM
+`keen-airlock-388921.Cylistics.Q1_trips`
+
+
+-- removes nulls, due to limitations in BigQuery, I cannot use the DELETE FROM function. Instead, I will be selecting the tables and creating a new table called Q1_trips_valid
+SELECT * 
+
+FROM `keen-airlock-388921.Cylistics.Q1_trips`
+
+WHERE 
+
+start_station_name IS NOT NULL AND
+end_station_name IS NOT NULL AND
+end_station_id IS NOT NULL AND
+end_lng IS NOT NULL;
+
+
+
+
+group by length(ride_id)
+
+-- check for duplicate rows based on ride_id
 
 --check null values 
 
