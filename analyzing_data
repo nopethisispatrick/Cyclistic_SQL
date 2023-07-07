@@ -1,0 +1,27 @@
+-- trip time (minutes) 
+  -- average trip time this is for total users
+  SELECT  ROUND(AVG(ride_length_m), 2)
+  FROM `keen-airlock-388921.Cylistics.Q1_trips_valid_cleaned` 
+  
+  -- average trip time for each group. this shows 10.74 minutes for members and 19.64 for casual riders
+  SELECT  ROUND(AVG(ride_length_m), 2) AS average, member_type
+  
+  FROM `keen-airlock-388921.Cylistics.Q1_trips_valid_cleaned` 
+
+  -- maximum amount of time spent on a bike divided per group
+  group by member_type
+  --max trip time for both members
+  SELECT  ROUND(max(ride_length_m), 2) AS max_trip_time, member_type
+
+  FROM `keen-airlock-388921.Cylistics.Q1_trips_valid_cleaned` 
+  
+  -- minimum amount of time spent on a bike divided per group
+  group by member_type
+
+  SELECT  ROUND(min(ride_length_m), 2) AS max_trip_time, member_type
+  
+  FROM `keen-airlock-388921.Cylistics.Q1_trips_valid_cleaned` 
+  
+  group by member_type
+
+-- trip time (day)
