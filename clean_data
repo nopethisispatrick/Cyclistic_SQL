@@ -101,9 +101,9 @@ SELECT --the results are saved to another table Q1_trips_valid_cleaned
     WHEN EXTRACT (DAYOFWEEK FROM started_at) = 1 THEN 'SUN'
     WHEN EXTRACT (DAYOFWEEK FROM started_at) = 2 THEN 'MON'
     WHEN EXTRACT (DAYOFWEEK FROM started_at) = 3 THEN 'TUE'
-    WHEN EXTRACT (DAYOFWEEK FROM started_at) = 2 THEN 'WED'
-    WHEN EXTRACT (DAYOFWEEK FROM started_at) = 2 THEN 'THU'
-    WHEN EXTRACT (DAYOFWEEK FROM started_at) = 2 THEN 'FRI'
+    WHEN EXTRACT (DAYOFWEEK FROM started_at) = 4 THEN 'WED'
+    WHEN EXTRACT (DAYOFWEEK FROM started_at) = 5 THEN 'THU'
+    WHEN EXTRACT (DAYOFWEEK FROM started_at) = 6 THEN 'FRI'
   ELSE 'SAT'
   END AS day_of_week,
 
