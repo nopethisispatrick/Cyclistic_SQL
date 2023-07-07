@@ -1,0 +1,18 @@
+
+--check null values 
+
+SELECT 
+  COUNT(*) - COUNT(ride_id) AS ride_id_count,
+  COUNT(*) - COUNT(rideable_type) AS rideable_type_count,
+  COUNT(*) - COUNT(started_at) AS started_at_count,
+  COUNT(*) - COUNT(ended_at) AS ended_at_count,
+  COUNT(*) - COUNT(ride_length) AS ride_length_count,
+  COUNT(*) - COUNT(day_of_week) AS day_of_week_count,
+  COUNT(*) - COUNT(start_lat) AS start_lat_count,
+  COUNT(*) - COUNT(start_lng) AS start_lng_count,
+  COUNT(*) - COUNT(end_lat) AS end_lat_count, --746 null values
+  COUNT(*) - COUNT(end_lng) AS end_lng_count, --746 null values
+FROM
+`keen-airlock-388921.Cylistics.Q1_trips`
+
+--check duplicates
